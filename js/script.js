@@ -73,6 +73,27 @@ async function handleFormSubmit(e) {
         message: formData.get('message')
     };
     
+    // Validate required fields
+    if (!contactData.email || !contactData.email.trim()) {
+        statusDiv.style.display = 'block';
+        statusDiv.className = 'form-status error';
+        statusDiv.innerHTML = '❌ Email address is required.';
+        submitButton.classList.remove('loading');
+        submitButton.disabled = false;
+        return;
+    }
+    
+    if (!contactData.name || !contactData.name.trim()) {
+        statusDiv.style.display = 'block';
+        statusDiv.className = 'form-status error';
+        statusDiv.innerHTML = '❌ Name is required.';
+        submitButton.classList.remove('loading');
+        submitButton.disabled = false;
+        return;
+    }
+    
+    console.log('📝 Form data collected:', contactData);
+    
     // Show loading state
     submitButton.classList.add('loading');
     submitButton.disabled = true;
@@ -114,8 +135,15 @@ async function handleFormSubmit(e) {
                 console.log('📧 Attempting to send EmailJS notification...');
                 const emailResult = await window.emailJSHandler.sendNotification(contactData);
                 console.log('✅ EmailJS result:', emailResult);
-                emailJSSuccess = true;
-                console.log('✅ EmailJS notification sent successfully');
+                
+                // Check if the result indicates success
+                if (emailResult && emailResult.success) {
+                    emailJSSuccess = true;
+                    console.log('✅ EmailJS notification sent successfully');
+                } else {
+                    console.log('⚠️ EmailJS returned but without success flag, trying fallback...');
+                    throw new Error('EmailJS returned without success flag');
+                }
             } else {
                 console.error('❌ EmailJS handler not found on window object');
                 throw new Error('EmailJS handler not initialized');
@@ -124,18 +152,22 @@ async function handleFormSubmit(e) {
             console.error('❌ EmailJS method failed:', emailError);
             console.error('EmailJS error stack:', emailError.stack);
             
-            // Try direct EmailJS API call as backup
-            try {
-                console.log('🔄 Trying direct EmailJS API call...');
-                if (typeof sendSimpleEmail === 'function') {
-                    await sendSimpleEmail(contactData);
-                    emailJSSuccess = true;
-                    console.log('✅ Direct EmailJS API call succeeded');
-                } else {
-                    console.error('❌ sendSimpleEmail function not available');
+            // Only try direct EmailJS API call as backup if the main method truly failed
+            if (!emailJSSuccess) {
+                try {
+                    console.log('🔄 Trying direct EmailJS API call...');
+                    if (typeof sendSimpleEmail === 'function') {
+                        await sendSimpleEmail(contactData);
+                        emailJSSuccess = true;
+                        console.log('✅ Direct EmailJS API call succeeded');
+                    } else {
+                        console.error('❌ sendSimpleEmail function not available');
+                    }
+                } catch (directEmailError) {
+                    console.error('❌ Direct EmailJS API call also failed:', directEmailError);
                 }
-            } catch (directEmailError) {
-                console.error('❌ Direct EmailJS API call also failed:', directEmailError);
+            } else {
+                console.log('🚫 Skipping fallback method since main EmailJS already succeeded');
             }
         }
         
@@ -145,15 +177,18 @@ async function handleFormSubmit(e) {
             let successMessage = `<strong>✅ Thank you ${contactData.name}!</strong><br>`;
             
             if (firebaseSuccess && emailJSSuccess) {
-                successMessage += `Your message has been saved and we've been notified via email. We'll respond within 24 hours.`;
+                successMessage += `Your message has been saved and we've been notified via email. `;
             } else if (firebaseSuccess) {
-                successMessage += `Your message has been saved successfully. We'll get back to you within 24 hours.`;
+                successMessage += `Your message has been saved successfully. `;
                 if (submissionId) {
-                    successMessage += `<br><small>Submission ID: ${submissionId}</small>`;
+                    successMessage += `<br><small>Submission ID: ${submissionId}</small><br>`;
                 }
             } else if (emailJSSuccess) {
-                successMessage += `We've received your message via email and will respond within 24 hours.`;
+                successMessage += `We've received your message via email and `;
             }
+            
+            successMessage += `We'll respond within 3 business days.<br>`;
+            successMessage += `<small>📧 You should also receive a confirmation email shortly.</small>`;
             
             statusDiv.innerHTML = successMessage;
             form.reset();
@@ -182,7 +217,7 @@ async function handleFormSubmit(e) {
                     statusDiv.innerHTML = `
                         <strong>✅ Thank you ${contactData.name}!</strong><br>
                         ${result.message}<br>
-                        <small>We'll respond to ${contactData.email} within 24 hours.</small>
+                        <small>We'll respond to ${contactData.email} within 3 business days.</small>
                     `;
                     form.reset();
                     
