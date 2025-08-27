@@ -1,0 +1,364 @@
+/* Contact Page Specific Styles */
+
+/* Contact Main Section */
+.contact-main .container {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 3rem;
+    max-width: 1200px;
+}
+
+.contact-form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    align-items: start;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group.full-width {
+    grid-column: 1 / -1;
+}
+
+.contact-form label {
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+}
+
+.contact-form input,
+.contact-form textarea {
+    padding: 0.8rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 100%;
+    box-sizing: border-box;
+    font-size: 1rem;
+    line-height: 1.4;
+}
+
+.contact-info-container {
+    background: #f9f9f9;
+    padding: 2.5rem;
+    border-radius: 8px;
+    border: 1px solid #e0e0e0;
+}
+
+.contact-info-container h2 {
+    margin-bottom: 1.5rem;
+    text-align: left;
+    color: var(--dark-color);
+}
+
+.contact-info-container p {
+    margin-bottom: 1.5rem;
+    line-height: 1.8;
+    word-wrap: break-word;
+}
+
+.contact-info-container p strong {
+    color: var(--primary-color);
+}
+
+/* FAQ Section */
+.faq {
+    background: var(--secondary-color);
+}
+
+.faq-item {
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 1.5rem;
+}
+
+.faq-item:last-child {
+    border-bottom: none;
+}
+
+/* Form Messages */
+.form-message {
+    padding: 1rem;
+    margin: 1rem 0;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+.form-message.success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.form-message.error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+/* Form Status Styles */
+.form-status {
+    margin-top: 1rem;
+    padding: 1rem;
+    border-radius: 5px;
+    text-align: center;
+    font-weight: 500;
+}
+
+.form-status.success {
+    background: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.form-status.error {
+    background: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+.form-status.loading {
+    background: #d1ecf1;
+    color: #0c5460;
+    border: 1px solid #bee5eb;
+}
+
+/* Enhanced Placeholder Styling */
+.contact-form input::placeholder,
+.contact-form textarea::placeholder {
+    font-size: 0.95rem;
+    color: #666;
+    font-weight: 400;
+    line-height: 1.4;
+}
+
+/* Special styling for Name and Subject - Make them bigger */
+.contact-form input#name::placeholder,
+.contact-form input#title::placeholder {
+    font-size: 1.2rem;
+    color: #555;
+    font-weight: 600;
+}
+
+/* Message placeholder - slightly bigger */
+.contact-form textarea#message::placeholder {
+    font-size: 1.05rem;
+    color: #666;
+    font-weight: 500;
+}
+
+/* Phone placeholder styling - Make it smaller */
+.phone-input-group input::placeholder {
+    font-size: 0.85rem;
+    color: #777;
+    font-weight: 400;
+}
+
+/* Phone Input Group Styles */
+.phone-input-group {
+    display: flex;
+    gap: 0;
+}
+
+.phone-input-group select {
+    padding: 0.8rem 0.5rem;
+    border: 2px solid #ddd;
+    border-radius: 5px 0 0 5px;
+    border-right: none;
+    background: white;
+    font-size: 0.85rem;
+    min-width: 180px;
+    max-width: 200px;
+    cursor: pointer;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    line-height: 1.2;
+}
+
+.phone-input-group input {
+    padding: 0.8rem 1rem;
+    border: 2px solid #ddd;
+    border-radius: 0 5px 5px 0;
+    border-left: none;
+    font-size: 1rem;
+    flex: 1;
+    min-width: 200px;
+}
+
+.phone-input-group select:focus,
+.phone-input-group input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+}
+
+.phone-input-group select option[disabled] {
+    color: #999;
+    font-style: italic;
+    text-align: center;
+    background-color: #f5f5f5;
+}
+
+.phone-input-group select option {
+    padding: 5px;
+    font-size: 0.9rem;
+}
+
+/* Ensure emoji support for all browsers */
+.phone-input-group select,
+.phone-input-group select option {
+    font-variant-emoji: emoji;
+}
+
+/* Contact Page Responsive Design */
+@media (max-width: 1150px) {
+    .contact-main .container {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        max-width: 800px;
+        margin: 0 auto;
+    }
+    
+    .contact-form {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+        max-width: 600px;
+        margin: 0 auto;
+    }
+    
+    .contact-form-container {
+        order: 1;
+    }
+    
+    .contact-info-container {
+        order: 2;
+        padding: 2rem;
+        text-align: center;
+    }
+    
+    /* Adjust form groups for single column */
+    .form-group.full-width {
+        grid-column: 1;
+    }
+    
+    /* Make phone input stack vertically on smaller screens */
+    .phone-input-group {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .phone-input-group select {
+        border-radius: 5px;
+        border-right: 2px solid #ddd;
+        max-width: 100%;
+        font-size: 0.9rem;
+    }
+    
+    .phone-input-group input {
+        border-radius: 5px;
+        border-left: 2px solid #ddd;
+        font-size: 0.9rem;
+    }
+    
+    /* Adjust contact info container */
+    .contact-info-container h2 {
+        text-align: center;
+        margin-bottom: 1rem;
+    }
+    
+    .contact-info-container p {
+        margin-bottom: 0.8rem;
+    }
+}
+
+/* Further refinements for smaller screens */
+@media (max-width: 900px) {
+    .contact-main .container {
+        max-width: 100%;
+        padding: 0 1rem;
+    }
+    
+    .contact-form {
+        max-width: 100%;
+    }
+    
+    .contact-form-container,
+    .contact-info-container {
+        padding: 1.5rem;
+    }
+    
+    /* Adjust placeholder sizes for mobile */
+    .contact-form input#name::placeholder,
+    .contact-form input#title::placeholder {
+        font-size: 1rem;
+    }
+    
+    .contact-form textarea#message::placeholder {
+        font-size: 0.95rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .contact-main .container {
+        grid-template-columns: 1fr;
+    }
+
+    .contact-form {
+        grid-template-columns: 1fr;
+    }
+
+    .contact-info-container p {
+        font-size: 0.9rem;
+        word-break: break-word;
+    }
+
+    /* Phone Input Group Styles */
+    .phone-input-group {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .phone-input-group select {
+        min-width: 100%;
+        max-width: 100%;
+        font-size: 0.9rem;
+        border-radius: 5px;
+        border-right: 2px solid #ddd;
+    }
+    
+    .phone-input-group input {
+        min-width: 100%;
+        font-size: 0.9rem;
+        border-radius: 5px;
+        border-left: 2px solid #ddd;
+    }
+}
+
+@media (max-width: 600px) {
+    .contact-form-container {
+        padding: 1rem;
+    }
+    
+    .contact-info-container {
+        padding: 1rem;
+    }
+    
+    /* Stack contact info items */
+    .contact-info-container p {
+        font-size: 0.9rem;
+        margin-bottom: 1rem;
+    }
+    
+    .phone-input-group select {
+        font-size: 0.85rem;
+        padding: 0.7rem 0.4rem;
+    }
+    
+    .phone-input-group input {
+        font-size: 0.9rem;
+        padding: 0.7rem;
+    }
+}

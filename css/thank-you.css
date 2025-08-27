@@ -1,0 +1,114 @@
+/* Thank You Page Specific Styles */
+
+.thank-you-section {
+    padding: 4rem 0;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    min-height: 60vh;
+    display: flex;
+    align-items: center;
+}
+
+.thank-you-content {
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto;
+    background: white;
+    padding: 3rem;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+.success-icon {
+    width: 80px;
+    height: 80px;
+    background: #28a745;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.5rem;
+    margin: 0 auto 2rem;
+    font-weight: bold;
+}
+
+.thank-you-content h1 {
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+}
+
+.thank-you-content > p {
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+    color: #666;
+}
+
+.next-steps {
+    background: #f8f9fa;
+    padding: 2rem;
+    border-radius: 10px;
+    margin: 2rem 0;
+    text-align: left;
+}
+
+.next-steps h3 {
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+.next-steps ul {
+    list-style: none;
+    padding: 0;
+}
+
+.next-steps li {
+    padding: 0.5rem 0;
+    color: #555;
+}
+
+.emergency-contact {
+    background: #fff3cd;
+    border: 1px solid #ffeaa7;
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin: 2rem 0;
+}
+
+.emergency-contact h3 {
+    color: #856404;
+    margin-bottom: 1rem;
+}
+
+.emergency-contact p {
+    color: #856404;
+    margin: 0;
+}
+
+.thank-you-actions {
+    margin-top: 2rem;
+}
+
+.thank-you-actions .btn {
+    margin: 0 0.5rem;
+}
+
+/* Thank You Page Responsive Design */
+@media (max-width: 768px) {
+    .thank-you-content {
+        padding: 2rem 1rem;
+        margin: 1rem;
+    }
+    
+    .success-icon {
+        width: 60px;
+        height: 60px;
+        font-size: 2rem;
+    }
+    
+    .thank-you-actions .btn {
+        display: block;
+        margin: 0.5rem auto;
+        width: 80%;
+    }
+}
