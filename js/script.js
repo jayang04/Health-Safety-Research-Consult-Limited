@@ -41,6 +41,62 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
+// Gallery filtering functionality
+document.addEventListener('DOMContentLoaded', () => {
+    // Gallery filter functionality
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const galleryItems = document.querySelectorAll('.gallery-item');
+
+    if (filterButtons.length > 0 && galleryItems.length > 0) {
+        // Set default view to show only "main" (Team & Research) items
+        galleryItems.forEach(item => {
+            const itemCategory = item.getAttribute('data-category');
+            if (itemCategory === 'main') {
+                item.classList.remove('hidden');
+                item.style.display = 'block';
+            } else {
+                item.classList.add('hidden');
+                item.style.display = 'none';
+            }
+        });
+
+        filterButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                // Remove active class from all buttons
+                filterButtons.forEach(btn => btn.classList.remove('active'));
+                // Add active class to clicked button
+                button.classList.add('active');
+
+                const filterValue = button.getAttribute('data-filter');
+
+                galleryItems.forEach(item => {
+                    const itemCategory = item.getAttribute('data-category');
+                    if (itemCategory === filterValue) {
+                        item.classList.remove('hidden');
+                        item.style.display = 'block';
+                    } else {
+                        item.classList.add('hidden');
+                        item.style.display = 'none';
+                    }
+                });
+            });
+        });
+    }
+
+    // Gallery item click for lightbox (optional enhancement)
+    galleryItems.forEach(item => {
+        item.addEventListener('click', () => {
+            const img = item.querySelector('img');
+            const overlay = item.querySelector('.gallery-overlay');
+            const title = overlay.querySelector('h4').textContent;
+            const description = overlay.querySelector('p').textContent;
+            
+            // You can add a lightbox/modal functionality here if desired
+            console.log(`Clicked on: ${title} - ${description}`);
+        });
+    });
+});
+
 async function handleFormSubmit(e) {
     e.preventDefault();
     
