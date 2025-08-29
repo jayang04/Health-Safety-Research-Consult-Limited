@@ -83,17 +83,115 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Gallery item click for lightbox (optional enhancement)
-    galleryItems.forEach(item => {
-        item.addEventListener('click', () => {
-            const img = item.querySelector('img');
-            const overlay = item.querySelector('.gallery-overlay');
-            const title = overlay.querySelector('h4').textContent;
-            const description = overlay.querySelector('p').textContent;
-            
-            // You can add a lightbox/modal functionality here if desired
-            console.log(`Clicked on: ${title} - ${description}`);
+    // Gallery item click for fullscreen modal
+    const modal = document.getElementById('imageModal');
+    const modalImage = document.getElementById('modalImage');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalDescription = document.getElementById('modalDescription');
+    const modalClose = document.querySelector('.modal-close');
+    const modalPrev = document.querySelector('.modal-prev');
+    const modalNext = document.querySelector('.modal-next');
+    
+    let currentImageIndex = 0;
+    let currentImages = [];
+    
+    function updateCurrentImages() {
+        currentImages = Array.from(galleryItems).filter(item => {
+            return item.style.display !== 'none' && !item.classList.contains('hidden');
         });
+    }
+    
+    function showModal(index) {
+        updateCurrentImages();
+        if (index >= 0 && index < currentImages.length) {
+            currentImageIndex = index;
+            const item = currentImages[index];
+            const img = item.querySelector('img');
+            
+            // Get custom title and description from data attributes
+            const customTitle = item.getAttribute('data-title');
+            const customDescription = item.getAttribute('data-description');
+            
+            modalImage.src = img.src;
+            modalImage.alt = img.alt;
+            modalTitle.textContent = customTitle || ''; // Use custom title or empty
+            modalDescription.textContent = customDescription || ''; // Use custom description or empty
+            
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+    }
+    
+    function hideModal() {
+        modal.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+    
+    function getImageDescription(alt) {
+        // Return empty string - user will add custom descriptions
+        return '';
+    }
+    
+    function showNextImage() {
+        const nextIndex = (currentImageIndex + 1) % currentImages.length;
+        showModal(nextIndex);
+    }
+    
+    function showPrevImage() {
+        const prevIndex = (currentImageIndex - 1 + currentImages.length) % currentImages.length;
+        showModal(prevIndex);
+    }
+    
+    // Add click events to gallery items
+    galleryItems.forEach((item, index) => {
+        item.addEventListener('click', () => {
+            updateCurrentImages();
+            const visibleIndex = currentImages.indexOf(item);
+            if (visibleIndex !== -1) {
+                showModal(visibleIndex);
+            }
+        });
+    });
+    
+    // Modal event listeners
+    if (modalClose) {
+        modalClose.addEventListener('click', hideModal);
+    }
+    
+    if (modalPrev) {
+        modalPrev.addEventListener('click', (e) => {
+            e.stopPropagation();
+            showPrevImage();
+        });
+    }
+    
+    if (modalNext) {
+        modalNext.addEventListener('click', (e) => {
+            e.stopPropagation();
+            showNextImage();
+        });
+    }
+    
+    // Close modal when clicking outside the image
+    if (modal) {
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                hideModal();
+            }
+        });
+    }
+    
+    // Keyboard navigation
+    document.addEventListener('keydown', (e) => {
+        if (modal.classList.contains('active')) {
+            if (e.key === 'Escape') {
+                hideModal();
+            } else if (e.key === 'ArrowLeft') {
+                showPrevImage();
+            } else if (e.key === 'ArrowRight') {
+                showNextImage();
+            }
+        }
     });
 });
 

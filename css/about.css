@@ -88,6 +88,63 @@
     margin-bottom: 1rem;
 }
 
+/* Team member link styling */
+.team-member {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.3s ease;
+    padding: 1rem;
+    border-radius: 8px;
+    position: relative;
+    background: transparent;
+}
+
+.team-member:hover {
+    transform: translateY(-5px);
+    text-decoration: none;
+}
+
+/* Hover message overlay */
+.team-member::after {
+    content: 'Click to view more';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(13, 71, 161, 0.9);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.team-member:hover::after {
+    opacity: 1;
+}
+
+.team-member h4 {
+    margin: 0.5rem 0 0.2rem 0;
+    color: var(--primary-color);
+    transition: color 0.3s ease;
+}
+
+.team-member:hover h4 {
+    color: var(--accent-color);
+}
+
+.team-member p {
+    margin: 0;
+    color: var(--dark-color);
+    font-size: 0.95rem;
+}
+
 /* Team Profiles Section */
 .team-profiles {
     display: flex;
@@ -153,11 +210,101 @@
     color: var(--primary-color);
 }
 
+/* Individual Team Member Profile Page */
+.team-member-profile {
+    padding: 3rem 0;
+}
+
+.team-member-profile .profile-content {
+    display: flex;
+    gap: 3rem;
+    margin-bottom: 3rem;
+}
+
+.profile-image {
+    flex-shrink: 0;
+}
+
+.user-icon-large {
+    width: 250px;
+    height: 250px;
+    border-radius: 50%;
+    background: #f8f9fa;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 4px solid var(--primary-color);
+}
+
+.user-icon-large i {
+    font-size: 100px;
+    color: var(--primary-color);
+}
+
+.profile-info {
+    flex: 1;
+}
+
+.profile-info h2 {
+    color: var(--primary-color);
+    margin-bottom: 0.5rem;
+    font-size: 2rem;
+}
+
+.profile-info h3 {
+    color: var(--dark-color);
+    font-weight: 600;
+    margin-bottom: 2rem;
+    font-size: 1.3rem;
+}
+
+.profile-section {
+    margin-bottom: 2rem;
+}
+
+.profile-section h4 {
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+    border-bottom: 2px solid #f0f0f0;
+    padding-bottom: 0.5rem;
+}
+
+.profile-section ul {
+    padding-left: 1.5rem;
+}
+
+.profile-section li {
+    margin-bottom: 0.5rem;
+    line-height: 1.6;
+}
+
+.back-to-team {
+    text-align: center;
+    margin-top: 2rem;
+}
+
 /* About Page Responsive Design */
+@media (max-width: 1300px) {
+    .team-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 2.5rem;
+    }
+}
+
 @media (max-width: 1026px) {
     .team-grid {
         grid-template-columns: repeat(2, 1fr);
         gap: 3rem;
+    }
+    
+    .team-member-profile .profile-content {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .user-icon-large {
+        margin: 0 auto;
     }
 }
 
@@ -182,5 +329,31 @@
     
     .timeline-item:nth-child(even) {
         left: 0%;
+    }
+    
+    .team-member {
+        padding: 1rem;
+    }
+    
+    .user-icon {
+        width: 150px;
+        height: 150px;
+    }
+    
+    .user-icon i {
+        font-size: 60px;
+    }
+    
+    .user-icon-large {
+        width: 200px;
+        height: 200px;
+    }
+    
+    .user-icon-large i {
+        font-size: 80px;
+    }
+    
+    .profile-info h2 {
+        font-size: 1.5rem;
     }
 }
