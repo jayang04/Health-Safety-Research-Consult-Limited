@@ -144,18 +144,19 @@ header nav ul li a:hover {
 
 .mobile-logo {
     height: 100px;
-    margin-top: 100px;
+    max-width: 500px;
+    margin-top: 40px;
 }
 
 .mobile-logo img {
-    height: 150%;
+    height: 100%;
     max-width: 400px;
     object-fit: contain;
 }
 
 .close-btn {
-    margin-top: 120px;
-    margin-right: 20px;
+    margin-top: 40px;
+    margin-right: 10px;
     background: none;
     border: none;
     font-size: 2rem;
@@ -166,6 +167,7 @@ header nav ul li a:hover {
 
 /* Mobile Menu Navigation */
 .mobile-nav {
+    margin-top: 200px;
     flex: 1;
     display: flex;
     flex-direction: column;
@@ -189,7 +191,8 @@ header nav ul li a:hover {
 
 /* Mobile Contact Button */
 .mobile-contact-button {
-    margin-bottom: 2rem;
+    margin-top: 40px;
+    margin-bottom: 6rem;
 }
 
 .mobile-contact-button a {
@@ -499,5 +502,199 @@ footer {
     
     .social-links {
         justify-content: center;
+    }
+}
+
+/* Horizontal Mobile Menu Alternative */
+.mobile-menu-horizontal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: #f5f5f5;
+    z-index: 9999;
+    display: none;
+    flex-direction: column;
+    text-align: center;
+}
+
+.mobile-menu-horizontal.active {
+    display: flex;
+}
+
+/* Horizontal Mobile Menu Header */
+.mobile-menu-horizontal .mobile-menu-header {
+    position: relative;
+    width: 100%;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 1.5rem;
+    flex-shrink: 0;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.mobile-menu-horizontal .mobile-logo {
+    height: 60px;
+    max-width: 300px;
+}
+
+.mobile-menu-horizontal .mobile-logo img {
+    height: 100%;
+    max-width: 100%;
+    object-fit: contain;
+}
+
+.mobile-menu-horizontal .close-btn {
+    background: none;
+    border: none;
+    font-size: 2rem;
+    color: var(--dark-color);
+    cursor: pointer;
+    padding: 0.5rem;
+}
+
+/* Horizontal Mobile Menu Navigation */
+.mobile-menu-horizontal .mobile-nav {
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 1.5rem;
+    padding: 2rem 1rem;
+    overflow-x: auto;
+    overflow-y: hidden;
+    width: 100%;
+    min-height: 60px;
+    white-space: nowrap;
+}
+
+.mobile-menu-horizontal .mobile-nav::-webkit-scrollbar {
+    height: 6px;
+}
+
+.mobile-menu-horizontal .mobile-nav::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 3px;
+}
+
+.mobile-menu-horizontal .mobile-nav::-webkit-scrollbar-thumb {
+    background: var(--primary-color);
+    border-radius: 3px;
+}
+
+.mobile-menu-horizontal .mobile-nav::-webkit-scrollbar-thumb:hover {
+    background: #0a3d91;
+}
+
+.mobile-menu-horizontal .mobile-nav a {
+    color: var(--dark-color);
+    text-decoration: none;
+    font-size: 1.2rem;
+    font-weight: 500;
+    transition: color 0.3s ease;
+    padding: 0.8rem 1.2rem;
+    border-radius: 25px;
+    background: white;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.mobile-menu-horizontal .mobile-nav a:hover,
+.mobile-menu-horizontal .mobile-nav a.active {
+    color: white;
+    background: var(--primary-color);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(13, 71, 161, 0.3);
+}
+
+/* Horizontal Mobile Contact Button */
+.mobile-menu-horizontal .mobile-contact-button {
+    margin: 1rem;
+    padding: 0 1rem;
+}
+
+.mobile-menu-horizontal .mobile-contact-button a {
+    background: var(--primary-color);
+    color: white;
+    padding: 1rem 2rem;
+    border-radius: 25px;
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: 600;
+    display: inline-block;
+    transition: background 0.3s ease;
+}
+
+.mobile-menu-horizontal .mobile-contact-button a:hover {
+    background: #0a3d91;
+}
+
+/* Mobile Menu in Landscape Orientation - Modify existing menu */
+@media screen and (max-width: 1000px) and (orientation: landscape) {
+    /* Adjust mobile menu for landscape */
+    .mobile-menu-header {
+        height: 50px;
+        padding: 0 1rem;
+    }
+    
+    .mobile-logo {
+        height: 90px;
+        max-width: 500px;
+        margin-top: 40px;
+    }
+    
+    .close-btn {
+        margin-top: 30px;
+        margin-right: 0;
+        font-size: 1.5rem;
+    }
+    
+    /* Make navigation horizontal in landscape */
+    .mobile-nav {
+        margin-top: 0;
+        flex-direction: row;
+        justify-content: flex-start;
+        gap: 1rem;
+        padding: 1rem;
+        overflow-x: auto;
+        overflow-y: hidden;
+        white-space: nowrap;
+        height: auto;
+        max-height: calc(100vh - 120px);
+    }
+    
+    .mobile-nav a {
+        font-size: 1rem;
+        padding: 0.6rem 1rem;
+        background: white;
+        border-radius: 20px;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        flex-shrink: 0;
+        white-space: nowrap;
+        transition: all 0.3s ease;
+    }
+    
+    .mobile-nav a:hover,
+    .mobile-nav a.active {
+        background: var(--primary-color);
+        color: white;
+        transform: translateY(-1px);
+        box-shadow: 0 3px 8px rgba(13, 71, 161, 0.3);
+    }
+    
+    /* Adjust contact button for landscape */
+    .mobile-contact-button {
+        margin-top: 0.5rem;
+        margin-bottom: 1rem;
+    }
+    
+    .mobile-contact-button a {
+        padding: 0.6rem 1.5rem;
+        font-size: 0.9rem;
     }
 }
