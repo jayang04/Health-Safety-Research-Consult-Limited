@@ -392,7 +392,7 @@ async function handleFormSubmit(e) {
         console.log('All server methods failed, using email client fallback:', error);
         
         // Final fallback to email client method
-        const emailBody = `New consultation request from Health & Safety Research and Consultancy website
+        const emailBody = `New consultation request from HEALTH & SAFETY RESEARCH CONSULT LIMITED website
 
 Name: ${contactData.name}
 Email: ${contactData.email}
@@ -406,7 +406,7 @@ ${contactData.message}
 This message was sent from the contact form on your website.
 Timestamp: ${new Date().toLocaleString()}`;
         
-        const subject = encodeURIComponent('New consultation request from Health & Safety Research and Consultancy website');
+        const subject = encodeURIComponent('New consultation request from HEALTH & SAFETY RESEARCH CONSULT LIMITED website');
         const body = encodeURIComponent(emailBody);
         const mailtoLink = `mailto:angzhixuan605@gmail.com?subject=${subject}&body=${body}`;
         
