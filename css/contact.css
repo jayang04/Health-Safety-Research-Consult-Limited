@@ -18,6 +18,8 @@
 .form-group {
     display: flex;
     flex-direction: column;
+    overflow: visible;
+    position: relative;
 }
 
 .form-group.full-width {
@@ -160,13 +162,15 @@
 .phone-input-group {
     display: flex;
     gap: 0;
+    width: 100%;
+    position: relative;
 }
 
 .phone-input-group select {
     padding: 0.8rem 0.5rem;
     border: 2px solid #ddd;
     border-radius: 5px 0 0 5px;
-    border-right: none;
+    border-right: 1px solid #ddd;
     background: white;
     font-size: 0.85rem;
     min-width: 180px;
@@ -177,22 +181,27 @@
     white-space: nowrap;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
     line-height: 1.2;
+    z-index: 1;
+    box-sizing: border-box;
 }
 
 .phone-input-group input {
     padding: 0.8rem 1rem;
     border: 2px solid #ddd;
     border-radius: 0 5px 5px 0;
-    border-left: none;
+    border-left: 1px solid #ddd;
     font-size: 1rem;
     flex: 1;
     min-width: 200px;
+    box-sizing: border-box;
 }
 
 .phone-input-group select:focus,
 .phone-input-group input:focus {
     outline: none;
     border-color: var(--primary-color);
+    z-index: 2;
+    position: relative;
 }
 
 .phone-input-group select option[disabled] {
@@ -248,19 +257,24 @@
     .phone-input-group {
         flex-direction: column;
         gap: 0.5rem;
+        width: 100%;
     }
     
     .phone-input-group select {
         border-radius: 5px;
-        border-right: 2px solid #ddd;
+        border: 2px solid #ddd;
         max-width: 100%;
+        min-width: 100%;
         font-size: 0.9rem;
+        box-sizing: border-box;
     }
     
     .phone-input-group input {
         border-radius: 5px;
-        border-left: 2px solid #ddd;
+        border: 2px solid #ddd;
         font-size: 0.9rem;
+        min-width: 100%;
+        box-sizing: border-box;
     }
     
     /* Adjust contact info container */
@@ -318,7 +332,8 @@
     /* Phone Input Group Styles */
     .phone-input-group {
         flex-direction: column;
-        gap: 10px;
+        gap: 0.5rem;
+        width: 100%;
     }
     
     .phone-input-group select {
@@ -326,14 +341,16 @@
         max-width: 100%;
         font-size: 0.9rem;
         border-radius: 5px;
-        border-right: 2px solid #ddd;
+        border: 2px solid #ddd;
+        box-sizing: border-box;
     }
     
     .phone-input-group input {
         min-width: 100%;
         font-size: 0.9rem;
         border-radius: 5px;
-        border-left: 2px solid #ddd;
+        border: 2px solid #ddd;
+        box-sizing: border-box;
     }
 }
 
