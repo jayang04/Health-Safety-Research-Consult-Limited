@@ -306,23 +306,25 @@ async function handleFormSubmit(e) {
             console.error('❌ EmailJS method failed:', emailError);
             console.error('EmailJS error stack:', emailError.stack);
             
-            // Only try direct EmailJS API call as backup if the main method truly failed
-            if (!emailJSSuccess) {
-                try {
-                    console.log('🔄 Trying direct EmailJS API call...');
-                    if (typeof sendSimpleEmail === 'function') {
-                        await sendSimpleEmail(contactData);
-                        emailJSSuccess = true;
-                        console.log('✅ Direct EmailJS API call succeeded');
-                    } else {
-                        console.error('❌ sendSimpleEmail function not available');
-                    }
-                } catch (directEmailError) {
-                    console.error('❌ Direct EmailJS API call also failed:', directEmailError);
-                }
-            } else {
-                console.log('🚫 Skipping fallback method since main EmailJS already succeeded');
-            }
+            // TEMPORARILY DISABLED FALLBACK TO PREVENT DUPLICATES
+            console.log('🚫 Fallback system temporarily disabled to prevent duplicates');
+            console.log('🚫 If main EmailJS fails, form will still work but only notification email will be sent');
+            
+            // Commented out fallback to prevent duplicates:
+            // if (!emailJSSuccess) {
+            //     try {
+            //         console.log('🔄 Trying direct EmailJS API call...');
+            //         if (typeof sendSimpleEmail === 'function') {
+            //             await sendSimpleEmail(contactData);
+            //             emailJSSuccess = true;
+            //             console.log('✅ Direct EmailJS API call succeeded');
+            //         } else {
+            //             console.error('❌ sendSimpleEmail function not available');
+            //         }
+            //     } catch (directEmailError) {
+            //         console.error('❌ Direct EmailJS API call also failed:', directEmailError);
+            //     }
+            // }
         }
         
         // If either Firebase or EmailJS worked, show success
@@ -416,7 +418,7 @@ Timestamp: ${new Date().toLocaleString()}`;
             Your message is ready to send. Click the button below to open your email client.<br>
             <button onclick="window.open('${mailtoLink}', '_blank'); showEmailSent();" class="btn" style="margin-top: 15px; font-size: 14px; padding: 10px 20px; background: #28a745; border: none; color: white; border-radius: 5px; cursor: pointer;">📧 Send Email Now</button>
             <p style="margin-top: 10px; font-size: 13px; color: #666;">
-                Or contact us directly: <strong>andy.ang@sit.ac.nz</strong> | <strong>+64 021 172 5959</strong>
+                Or contact us directly: <strong>a.andy@hsresconsult.com</strong> | <strong>+64 021 172 5959</strong>
             </p>
         `;
         

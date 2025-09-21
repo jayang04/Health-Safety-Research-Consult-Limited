@@ -1,5 +1,8 @@
 // Simple EmailJS fallback - direct API call
 async function sendSimpleEmail(contactData) {
+    console.log('🔄 FALLBACK: Direct EmailJS API called - this should only happen if main EmailJS failed');
+    console.log('🔄 If you see this AND the main EmailJS succeeded, that would cause duplicates');
+
     // Validate required fields
     if (!contactData.email || !contactData.email.trim()) {
         console.error('❌ Customer email is missing or empty:', contactData.email);
@@ -7,9 +10,10 @@ async function sendSimpleEmail(contactData) {
     }
 
     const notificationParams = {
-        to_email: 'angzhixuan605@gmail.com',
+        to_email: 'a.andy@hsresconsult.com',
         from_name: contactData.name || 'Unknown',
         from_email: contactData.email,
+        title: contactData.title || 'General Inquiry',
         phone: contactData.phone || 'Not provided',
         message: contactData.message || 'No message provided',
         submission_date: new Date().toLocaleString(),
@@ -18,6 +22,7 @@ async function sendSimpleEmail(contactData) {
 
     const autoReplyParams = {
         to_email: contactData.email.trim(),        // Ensure no whitespace
+        customer_email: contactData.email.trim(),  // Explicit customer_email parameter for template
         from_name: contactData.name || 'Customer',        // Matches {{from_name}} in template
         from_title: contactData.title || 'General Inquiry',  // Matches {{from_title}} in template
         from_email: contactData.email.trim(),      // Matches {{from_email}} in template
@@ -25,19 +30,19 @@ async function sendSimpleEmail(contactData) {
     };
 
     const notificationData = {
-        service_id: 'service_f8yi04k',
-        template_id: 'template_tf7wxqp',
-        user_id: 'COQd6djLvGcYQSyNw',
+        service_id: 'service_g9if4cc',
+        template_id: 'template_01yzw6j',
+        user_id: 'GH8bkNQ2QMGej22aB',
         template_params: notificationParams
     };
 
-    // Replace with your actual auto-reply template ID
-    const AUTO_REPLY_TEMPLATE_ID = 'template_g3hs73r';
+    // Use the same auto-reply template ID as the main handler
+    const AUTO_REPLY_TEMPLATE_ID = 'template_kqny4fl';
     
     const autoReplyData = {
-        service_id: 'service_f8yi04k',
+        service_id: 'service_g9if4cc',
         template_id: AUTO_REPLY_TEMPLATE_ID,
-        user_id: 'COQd6djLvGcYQSyNw',
+        user_id: 'GH8bkNQ2QMGej22aB',
         template_params: autoReplyParams
     };
 
@@ -61,28 +66,33 @@ async function sendSimpleEmail(contactData) {
 
         console.log('✅ Direct EmailJS notification API call successful');
 
-        // Send auto-reply email (TEMPORARILY DISABLED TO DEBUG)
+        // Send auto-reply email 
         let autoReplySuccess = false;
-        console.log('⚠️ DIRECT AUTO-REPLY DISABLED FOR DEBUGGING');
-        console.log('⚠️ The problem is in your EmailJS Auto-Reply template configuration');
         
-        // DISABLED: 
-        // if (AUTO_REPLY_TEMPLATE_ID && AUTO_REPLY_TEMPLATE_ID !== 'YOUR_AUTO_REPLY_TEMPLATE_ID') {
-        //     const autoReplyResponse = await fetch('https://api.emailjs.com/api/v1.0/email/send', {
-        //         method: 'POST',
-        //         headers: {
-        //             'Content-Type': 'application/json',
-        //         },
-        //         body: JSON.stringify(autoReplyData)
-        //     });
-        //     if (autoReplyResponse.ok) {
-        //         console.log('✅ Direct EmailJS auto-reply API call successful');
-        //         autoReplySuccess = true;
-        //     } else {
-        //         const errorText = await autoReplyResponse.text();
-        //         console.warn('⚠️ Direct EmailJS auto-reply API call failed (notification still sent):', autoReplyResponse.status, errorText);
-        //     }
-        // }
+        if (AUTO_REPLY_TEMPLATE_ID && AUTO_REPLY_TEMPLATE_ID !== 'YOUR_AUTO_REPLY_TEMPLATE_ID') {
+            try {
+                console.log('📧 Sending direct auto-reply...');
+                const autoReplyResponse = await fetch('https://api.emailjs.com/api/v1.0/email/send', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(autoReplyData)
+                });
+                
+                if (autoReplyResponse.ok) {
+                    console.log('✅ Direct EmailJS auto-reply API call successful');
+                    autoReplySuccess = true;
+                } else {
+                    const errorText = await autoReplyResponse.text();
+                    console.warn('⚠️ Direct EmailJS auto-reply API call failed (notification still sent):', autoReplyResponse.status, errorText);
+                }
+            } catch (autoReplyError) {
+                console.warn('⚠️ Auto-reply failed but notification was sent:', autoReplyError);
+            }
+        } else {
+            console.log('⚠️ Auto-reply template ID not configured');
+        }
 
         return { success: true, autoReplySent: autoReplySuccess };
     } catch (error) {

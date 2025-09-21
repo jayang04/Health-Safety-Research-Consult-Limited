@@ -3,10 +3,10 @@
 
 class EmailJSHandler {
     constructor() {
-        this.serviceId = 'service_f8yi04k'; // Updated to match working credentials
-        this.templateId = 'template_tf7wxqp'; // Main notification template (to you)
-        this.autoReplyTemplateId = 'template_g3hs73r'; // Replace with your auto-reply template ID
-        this.publicKey = 'COQd6djLvGcYQSyNw'; // This was already correct
+        this.serviceId = 'service_g9if4cc'; // Updated to match working credentials
+        this.templateId = 'template_01yzw6j'; // Contact us template (notification to you)
+        this.autoReplyTemplateId = 'template_kqny4fl'; // Auto-reply template (to customer)
+        this.publicKey = 'GH8bkNQ2QMGej22aB'; // This was already correct
         this.initialized = false;
     }
 
@@ -47,7 +47,7 @@ class EmailJSHandler {
 
         // Template params for notification to you
         const notificationParams = {
-            to_email: 'angzhixuan605@gmail.com',
+            to_email: 'a.andy@hsresconsult.com',
             from_name: contactData.name || 'Unknown',
             from_email: contactData.email,
             title: contactData.title || 'General Inquiry',
@@ -60,11 +60,11 @@ class EmailJSHandler {
         // Template params for auto-reply to customer
         const autoReplyParams = {
             to_email: contactData.email.trim(),        // Should ONLY go to customer
+            customer_email: contactData.email.trim(),  // Explicit customer_email parameter for template
             from_name: contactData.name || 'Customer', // Matches {{from_name}} in template
             from_title: contactData.title || 'General Inquiry',  // Matches {{from_title}} in template
             from_email: contactData.email.trim(),      // Matches {{from_email}} in template
             submission_date: new Date().toLocaleString()
-            // Removed customer_email to avoid confusion
         };
 
         console.log('📋 EmailJS notification params:', notificationParams);
@@ -72,8 +72,8 @@ class EmailJSHandler {
         console.log('🚨 DEBUGGING: Customer email from form:', contactData.email);
         console.log('🚨 DEBUGGING: Auto-reply to_email parameter:', autoReplyParams.to_email);
         console.log('🔧 Auto-reply will be sent to CUSTOMER email:', contactData.email);
-        console.log('🔧 Notification will be sent to YOUR email:', 'angzhixuan605@gmail.com');
-        console.log('🔧 Are you testing with your own email as customer?', contactData.email === 'angzhixuan605@gmail.com');
+        console.log('🔧 Notification will be sent to YOUR email:', 'a.andy@hsresconsult.com');
+        console.log('🔧 Are you testing with your own email as customer?', contactData.email === 'a.andy@hsresconsult.com');
         console.log('🔧 Using service:', this.serviceId, 'templates:', this.templateId, '&', this.autoReplyTemplateId);
 
         try {
@@ -86,20 +86,21 @@ class EmailJSHandler {
             if (this.autoReplyTemplateId && this.autoReplyTemplateId !== 'YOUR_AUTO_REPLY_TEMPLATE_ID') {
                 console.log('🚨 SENDING AUTO-REPLY WITH DEBUGGING:');
                 console.log('🚨 Service ID:', this.serviceId);
-                console.log('🚨 Template ID:', this.autoReplyTemplateId);
+                console.log('🚨 Template ID:', this.autoReplyTemplateId, '(should be template_jo2uzja)');
                 console.log('🚨 Customer email (should receive auto-reply):', contactData.email);
                 console.log('🚨 Parameters being sent:', JSON.stringify(autoReplyParams, null, 2));
                 
                 // Make sure we're sending to customer email only
                 const fixedAutoReplyParams = {
-                    customer_email: contactData.email.trim(),
+                    customer_email: contactData.email.trim(),  // This goes to "To Email" field in your template
                     from_name: contactData.name || 'Customer',
                     from_title: contactData.title || 'General Inquiry',
                     from_email: contactData.email.trim(),
                     submission_date: new Date().toLocaleString()
                 };
                 
-                console.log('🔧 FIXED Parameters:', JSON.stringify(fixedAutoReplyParams, null, 2));
+                console.log('🔧 FINAL AUTO-REPLY Parameters:', JSON.stringify(fixedAutoReplyParams, null, 2));
+                console.log('🔧 The customer_email parameter will be used by EmailJS to determine recipient');
                 
                 autoReplyResponse = await emailjs.send(this.serviceId, this.autoReplyTemplateId, fixedAutoReplyParams);
                 console.log('✅ EmailJS auto-reply sent to:', contactData.email);
@@ -110,7 +111,8 @@ class EmailJSHandler {
                 success: true, 
                 notificationResponse, 
                 autoReplyResponse,
-                autoReplySent: !!autoReplyResponse
+                autoReplySent: !!autoReplyResponse,
+                message: 'Both notification and auto-reply sent successfully'
             };
         } catch (error) {
             console.error('❌ EmailJS send error:', error);
