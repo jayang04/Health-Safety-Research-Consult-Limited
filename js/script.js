@@ -418,7 +418,7 @@ Timestamp: ${new Date().toLocaleString()}`;
             Your message is ready to send. Click the button below to open your email client.<br>
             <button onclick="window.open('${mailtoLink}', '_blank'); showEmailSent();" class="btn" style="margin-top: 15px; font-size: 14px; padding: 10px 20px; background: #28a745; border: none; color: white; border-radius: 5px; cursor: pointer;">📧 Send Email Now</button>
             <p style="margin-top: 10px; font-size: 13px; color: #666;">
-                Or contact us directly: <strong>a.andy@hsresconsult.com</strong> | <strong>+64 021 172 5959</strong>
+                Or contact us directly: <strong>a.andy@hsresconsult.com</strong> | <strong>+64 09-826-5299</strong>
             </p>
         `;
         

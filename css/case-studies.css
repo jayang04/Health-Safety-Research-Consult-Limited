@@ -1,22 +1,16 @@
 /* Case Studies Page Specific Styles */
 
 /* Case Study Items */
-.case-study-item {
-    display: grid;
-    grid-template-columns: 1fr 2fr;
-    gap: 2rem;
-    margin-bottom: 3rem;
-    background: var(--secondary-color);
-    padding: 2rem;
-    border-radius: 5px;
+.case-study-content {
+    text-align: center;
+    background-color: rgb(249, 244, 244);
+    padding: 3rem;
 }
 
-.case-study-image img {
-    width: 100%;
-    height: auto;
-    border-radius: 5px;
+.case-study-content img {
+    max-width: 100%;
+    margin: 0 auto;
 }
-
 .case-study-details {
     margin: 1.5rem 0;
 }
@@ -28,6 +22,7 @@
 
 .case-study-link {
     margin-top: 1.5rem;
+    margin-bottom: 3rem;
 }
 
 .btn-link {
@@ -38,7 +33,6 @@
     text-decoration: none;
     border-radius: 5px;
     font-weight: 600;
-    transition: background 0.3s ease;
 }
 
 .btn-link:hover {
@@ -47,13 +41,9 @@
 }
 
 .case-study-stats {
-    display: flex;
     gap: 2rem;
     margin-top: 1.5rem;
-}
-
-.stat {
-    text-align: center;
+    justify-content: space-around;
 }
 
 .stat-value {
@@ -65,9 +55,7 @@
 
 /* Case Study Authors and Academic Formatting */
 .case-study-authors {
-    background: #f8f9fa;
     padding: 1rem;
-    border-left: 4px solid var(--primary-color);
     margin-bottom: 1.5rem;
     border-radius: 0 5px 5px 0;
 }
@@ -96,6 +84,8 @@
     line-height: 1.3;
 }
 
+
+
 /* Case Studies Page Responsive Design */
 @media (max-width: 768px) {
     .case-study-item {
@@ -104,5 +94,11 @@
     
     .case-study-stats {
         justify-content: center;
+    }
+}
+
+@media (max-width: 450px) {
+    .case-study-item {
+        width: 100%;
     }
 }
