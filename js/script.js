@@ -43,6 +43,43 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Gallery filtering functionality
 document.addEventListener('DOMContentLoaded', () => {
+    // Detect image orientation and apply appropriate classes
+    const galleryImages = document.querySelectorAll('.gallery-item img');
+    
+    galleryImages.forEach(img => {
+        // If image is already loaded
+        if (img.complete) {
+            applyOrientationClass(img);
+        } else {
+            // Wait for image to load
+            img.addEventListener('load', function() {
+                applyOrientationClass(this);
+            });
+        }
+    });
+
+    function applyOrientationClass(img) {
+        const galleryItem = img.closest('.gallery-item');
+        const width = img.naturalWidth;
+        const height = img.naturalHeight;
+        const aspectRatio = width / height;
+
+        // Remove any existing orientation classes
+        galleryItem.classList.remove('portrait', 'landscape', 'square');
+
+        // Classify based on aspect ratio
+        if (aspectRatio > 1.2) {
+            // Horizontal/Landscape image
+            galleryItem.classList.add('landscape');
+        } else if (aspectRatio < 0.8) {
+            // Vertical/Portrait image
+            galleryItem.classList.add('portrait');
+        } else {
+            // Square or near-square image
+            galleryItem.classList.add('square');
+        }
+    }
+
     // Gallery filter functionality
     const filterButtons = document.querySelectorAll('.filter-btn');
     const galleryItems = document.querySelectorAll('.gallery-item');
@@ -116,6 +153,16 @@ document.addEventListener('DOMContentLoaded', () => {
             modalImage.alt = img.alt;
             modalTitle.textContent = customTitle || ''; // Use custom title or empty
             modalDescription.textContent = customDescription || ''; // Use custom description or empty
+            
+            // Detect orientation and apply to modal content
+            const modalContent = modalImage.closest('.modal-content');
+            const orientation = item.classList.contains('portrait') ? 'portrait' : 
+                              item.classList.contains('landscape') ? 'landscape' : 'square';
+            
+            // Remove all orientation classes
+            modalContent.classList.remove('portrait', 'landscape', 'square');
+            // Add current orientation
+            modalContent.classList.add(orientation);
             
             modal.classList.add('active');
             document.body.style.overflow = 'hidden';

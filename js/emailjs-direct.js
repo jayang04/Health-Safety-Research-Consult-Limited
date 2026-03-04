@@ -10,29 +10,31 @@ async function sendSimpleEmail(contactData) {
     }
 
     const notificationParams = {
-        to_email: 'a.andy@hsresconsult.com',
+        to_email: 'a.andy@hsresconsult.com',  // Dr. Andy Ang
+        cc_email: 'f.lamm@hsresconsult.com',  // Dr. Felicity Lamm - CC on notifications
         from_name: contactData.name || 'Unknown',
         from_email: contactData.email,
+        reply_to: contactData.email,  // Allows you to reply directly
         title: contactData.title || 'General Inquiry',
         phone: contactData.phone || 'Not provided',
         message: contactData.message || 'No message provided',
-        submission_date: new Date().toLocaleString(),
-        reply_to: contactData.email
+        submission_date: new Date().toLocaleString()
     };
 
     const autoReplyParams = {
-        to_email: contactData.email.trim(),        // Ensure no whitespace
-        customer_email: contactData.email.trim(),  // Explicit customer_email parameter for template
-        from_name: contactData.name || 'Customer',        // Matches {{from_name}} in template
-        from_title: contactData.title || 'General Inquiry',  // Matches {{from_title}} in template
-        from_email: contactData.email.trim(),      // Matches {{from_email}} in template
+        to_email: contactData.email.trim(),        // Customer's email
+        cc_email: '',                               // EXPLICITLY NO CC for auto-reply
+        bcc_email: '',                              // EXPLICITLY NO BCC
+        customer_email: contactData.email.trim(),  // Alternative parameter name
+        customer_name: contactData.name || 'Customer',
+        inquiry_subject: contactData.title || 'General Inquiry',
         submission_date: new Date().toLocaleString()
     };
 
     const notificationData = {
         service_id: 'service_g9if4cc',
         template_id: 'template_01yzw6j',
-        user_id: 'GH8bkNQ2QMGej22aB',
+        user_id: 'nxA2M99h4wC63NlD-',
         template_params: notificationParams
     };
 
@@ -42,7 +44,7 @@ async function sendSimpleEmail(contactData) {
     const autoReplyData = {
         service_id: 'service_g9if4cc',
         template_id: AUTO_REPLY_TEMPLATE_ID,
-        user_id: 'GH8bkNQ2QMGej22aB',
+        user_id: 'nxA2M99h4wC63NlD-',
         template_params: autoReplyParams
     };
 

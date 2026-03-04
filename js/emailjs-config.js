@@ -3,10 +3,10 @@
 
 class EmailJSHandler {
     constructor() {
-        this.serviceId = 'service_g9if4cc'; // Updated to match working credentials
-        this.templateId = 'template_01yzw6j'; // Contact us template (notification to you)
+        this.serviceId = 'service_g9if4cc'; // Your EmailJS service ID
+        this.templateId = 'template_01yzw6j'; // Contact us template (notification to you at a.andy@hsresconsult.com)
         this.autoReplyTemplateId = 'template_kqny4fl'; // Auto-reply template (to customer)
-        this.publicKey = 'GH8bkNQ2QMGej22aB'; // This was already correct
+        this.publicKey = 'nxA2M99h4wC63NlD-'; // Your EmailJS public key
         this.initialized = false;
     }
 
@@ -45,66 +45,68 @@ class EmailJSHandler {
             throw new Error('Customer email is required for auto-reply');
         }
 
-        // Template params for notification to you
+        // Template params for notification to you (a.andy@hsresconsult.com)
+        // IMPORTANT: Make sure your EmailJS template 'template_01yzw6j' has these settings:
+        // - To Email: {{to_email}} variable (so we can control it from code)
+        // - CC: {{cc_email}} variable (so we can control who gets CC'd)
+        // - Reply To: {{reply_to}} variable
         const notificationParams = {
-            to_email: 'a.andy@hsresconsult.com',
+            to_email: 'a.andy@hsresconsult.com',  // Dr. Andy Ang
+            cc_email: 'f.lamm@hsresconsult.com',  // Dr. Felicity Lamm - CC on notifications
             from_name: contactData.name || 'Unknown',
             from_email: contactData.email,
+            reply_to: contactData.email,  // Important: allows you to reply directly to customer
             title: contactData.title || 'General Inquiry',
             phone: contactData.phone || 'Not provided',
             message: contactData.message || 'No message provided',
-            submission_date: new Date().toLocaleString(),
-            reply_to: contactData.email
+            submission_date: new Date().toLocaleString()
         };
 
         // Template params for auto-reply to customer
+        // ⚠️ CRITICAL: In your EmailJS dashboard for template 'template_kqny4fl':
+        // - To Email field: {{to_email}} (customer email only!)
+        // - CC field: {{cc_email}} (we'll pass empty string to disable CC)
+        // - BCC field: leave empty or use {{bcc_email}} 
+        // - Reply To field: a.andy@hsresconsult.com (hardcoded in template)
+        // 
+        // By passing cc_email as empty string, we prevent the template from CC'ing anyone
         const autoReplyParams = {
-            to_email: contactData.email.trim(),        // Should ONLY go to customer
-            customer_email: contactData.email.trim(),  // Explicit customer_email parameter for template
-            from_name: contactData.name || 'Customer', // Matches {{from_name}} in template
-            from_title: contactData.title || 'General Inquiry',  // Matches {{from_title}} in template
-            from_email: contactData.email.trim(),      // Matches {{from_email}} in template
+            to_email: contactData.email.trim(),        // Customer's email - THIS IS WHERE AUTO-REPLY GOES
+            cc_email: '',                               // EXPLICITLY NO CC - prevents auto-reply from CC'ing you
+            bcc_email: '',                              // EXPLICITLY NO BCC
+            customer_email: contactData.email.trim(),  // Alternative parameter name (backup)
+            customer_name: contactData.name || 'Customer', // Customer's name for personalization
+            inquiry_subject: contactData.title || 'General Inquiry',  // What they asked about
             submission_date: new Date().toLocaleString()
         };
 
         console.log('📋 EmailJS notification params:', notificationParams);
         console.log('📋 EmailJS auto-reply params:', autoReplyParams);
-        console.log('🚨 DEBUGGING: Customer email from form:', contactData.email);
-        console.log('🚨 DEBUGGING: Auto-reply to_email parameter:', autoReplyParams.to_email);
-        console.log('🔧 Auto-reply will be sent to CUSTOMER email:', contactData.email);
-        console.log('🔧 Notification will be sent to YOUR email:', 'a.andy@hsresconsult.com');
-        console.log('🔧 Are you testing with your own email as customer?', contactData.email === 'a.andy@hsresconsult.com');
-        console.log('🔧 Using service:', this.serviceId, 'templates:', this.templateId, '&', this.autoReplyTemplateId);
+        console.log('📧 Notification will be sent to: a.andy@hsresconsult.com');
+        console.log('📧 Notification will CC: f.lamm@hsresconsult.com');
+        console.log('📧 Auto-reply will be sent ONLY to customer:', contactData.email);
+        console.log('⚠️ Auto-reply CC is explicitly disabled (empty string)');
+        console.log('🔍 Auto-reply to_email:', autoReplyParams.to_email);
+        console.log('🔍 Auto-reply cc_email:', autoReplyParams.cc_email, '(should be empty)');
 
         try {
-            // Send notification email to you
+            // Send notification email to you (a.andy@hsresconsult.com)
+            console.log('� Sending notification email...');
             const notificationResponse = await emailjs.send(this.serviceId, this.templateId, notificationParams);
             console.log('✅ EmailJS notification success:', notificationResponse);
 
-            // Send auto-reply to customer (RE-ENABLED WITH FIX)
+            // Send auto-reply to customer
             let autoReplyResponse = null;
             if (this.autoReplyTemplateId && this.autoReplyTemplateId !== 'YOUR_AUTO_REPLY_TEMPLATE_ID') {
-                console.log('🚨 SENDING AUTO-REPLY WITH DEBUGGING:');
-                console.log('🚨 Service ID:', this.serviceId);
-                console.log('🚨 Template ID:', this.autoReplyTemplateId, '(should be template_jo2uzja)');
-                console.log('🚨 Customer email (should receive auto-reply):', contactData.email);
-                console.log('🚨 Parameters being sent:', JSON.stringify(autoReplyParams, null, 2));
+                console.log('� Sending auto-reply email to customer...');
+                console.log('� Auto-reply recipient:', contactData.email);
+                console.log('� Template ID:', this.autoReplyTemplateId);
+                console.log('🔧 Parameters:', autoReplyParams);
                 
-                // Make sure we're sending to customer email only
-                const fixedAutoReplyParams = {
-                    customer_email: contactData.email.trim(),  // This goes to "To Email" field in your template
-                    from_name: contactData.name || 'Customer',
-                    from_title: contactData.title || 'General Inquiry',
-                    from_email: contactData.email.trim(),
-                    submission_date: new Date().toLocaleString()
-                };
-                
-                console.log('🔧 FINAL AUTO-REPLY Parameters:', JSON.stringify(fixedAutoReplyParams, null, 2));
-                console.log('🔧 The customer_email parameter will be used by EmailJS to determine recipient');
-                
-                autoReplyResponse = await emailjs.send(this.serviceId, this.autoReplyTemplateId, fixedAutoReplyParams);
-                console.log('✅ EmailJS auto-reply sent to:', contactData.email);
-                console.log('✅ Auto-reply response:', autoReplyResponse);
+                autoReplyResponse = await emailjs.send(this.serviceId, this.autoReplyTemplateId, autoReplyParams);
+                console.log('✅ EmailJS auto-reply sent successfully:', autoReplyResponse);
+            } else {
+                console.warn('⚠️ Auto-reply template not configured');
             }
 
             return { 
