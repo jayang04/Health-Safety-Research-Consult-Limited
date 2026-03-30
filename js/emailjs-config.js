@@ -4,7 +4,7 @@
 class EmailJSHandler {
     constructor() {
         this.serviceId = 'service_g9if4cc'; // Your EmailJS service ID
-        this.templateId = 'template_01yzw6j'; // Contact us template (notification to you at a.andy@hsresconsult.com)
+        this.templateId = 'template_01yzw6j'; // Contact us template (notification to you at admin@hsresconsult.com)
         this.autoReplyTemplateId = 'template_kqny4fl'; // Auto-reply template (to customer)
         this.publicKey = 'nxA2M99h4wC63NlD-'; // Your EmailJS public key
         this.initialized = false;
@@ -45,14 +45,14 @@ class EmailJSHandler {
             throw new Error('Customer email is required for auto-reply');
         }
 
-        // Template params for notification to you (a.andy@hsresconsult.com)
+        // Template params for notification to you (admin@hsresconsult.com)
         // IMPORTANT: Make sure your EmailJS template 'template_01yzw6j' has these settings:
         // - To Email: {{to_email}} variable (so we can control it from code)
         // - CC: {{cc_email}} variable (so we can control who gets CC'd)
         // - Reply To: {{reply_to}} variable
         const notificationParams = {
-            to_email: 'a.andy@hsresconsult.com',  // Dr. Andy Ang
-            cc_email: 'f.lamm@hsresconsult.com',  // Dr. Felicity Lamm - CC on notifications
+            to_email: 'admin@hsresconsult.com',  // General admin email
+            cc_email: 'a.andy@hsresconsult.com',  // Dr. Andy Ang - CC on notifications
             from_name: contactData.name || 'Unknown',
             from_email: contactData.email,
             reply_to: contactData.email,  // Important: allows you to reply directly to customer
@@ -82,8 +82,8 @@ class EmailJSHandler {
 
         console.log('📋 EmailJS notification params:', notificationParams);
         console.log('📋 EmailJS auto-reply params:', autoReplyParams);
-        console.log('📧 Notification will be sent to: a.andy@hsresconsult.com');
-        console.log('📧 Notification will CC: f.lamm@hsresconsult.com');
+        console.log('📧 Notification will be sent to: admin@hsresconsult.com');
+        console.log('📧 Notification will CC: a.andy@hsresconsult.com');
         console.log('📧 Auto-reply will be sent ONLY to customer:', contactData.email);
         console.log('⚠️ Auto-reply CC is explicitly disabled (empty string)');
         console.log('🔍 Auto-reply to_email:', autoReplyParams.to_email);
